@@ -121,6 +121,48 @@
       font-weight: 700;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .new-chat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .new-chat-btn:hover {
+      border-color: rgba(232,182,74,0.4);
+      background: rgba(232,182,74,0.06);
+      color: var(--accent-warm);
+    }
+
+    .new-chat-btn[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .new-chat-icon {
+      font-size: 1rem;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .new-chat-text {
+      letter-spacing: 0.02em;
+    }
     .lang-toggle {
       display: flex;
       align-items: center;
@@ -376,6 +418,9 @@
       .brand-sub { font-size: 0.65rem; }
       .lang-toggle { padding: 4px 6px; }
       .lang-btn { font-size: 0.75rem; padding: 3px 8px; }
+      .header-actions { gap: 6px; }
+      .new-chat-btn { padding: 6px 10px; font-size: 0.75rem; }
+      .new-chat-text { display: none; }
       .welcome-title { font-size: 1.65rem; }
       .welcome-sub { font-size: 0.9rem; }
       .suggestion-chip { font-size: 0.82rem; padding: 8px 12px; }
@@ -398,9 +443,16 @@
           <div class="brand-sub" data-lang="es">Educador de Tokenización</div>
         </div>
       </div>
-      <div class="lang-toggle">
-        <button class="lang-btn active" id="lang-en">EN</button>
-        <button class="lang-btn" id="lang-es">ES</button>
+      <div class="header-actions">
+        <button class="new-chat-btn" id="newChat" type="button" aria-label="Start a new conversation">
+          <span class="new-chat-icon">＋</span>
+          <span class="new-chat-text" data-lang="en">New</span>
+          <span class="new-chat-text" data-lang="es">Nuevo</span>
+        </button>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="lang-en">EN</button>
+          <button class="lang-btn" id="lang-es">ES</button>
+        </div>
       </div>
     </div>
 
