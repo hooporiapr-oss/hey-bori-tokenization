@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BoriCast — The Business of Basketball</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#07070b;
+  --dark:#101018;
+  --panel:#171722;
+  --panel2:#202033;
+  --gold:#e8b94a;
+  --white:#f4f1e8;
+  --muted:#b9b4a8;
+  --green:#7cff6b;
+  --blue:#48c6ff;
+  --red:#ff4f6d;
+  --purple:#b66cff;
+  --orange:#ff9f43;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Barlow',sans-serif;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:50;
+  padding:16px 7% 12px;
+  background:rgba(7,7,11,.72);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.nav-logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  letter-spacing:2px;
+  font-size:26px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.nav-links{
+  display:flex;
+  gap:26px;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+}
+.nav-links a:hover{color:var(--gold)}
+.language-toggle{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+  color:var(--gold);
+  font-size:14px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.lang-btn{
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  font-family:'Barlow',sans-serif;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:4px 6px;
+}
+.lang-btn.active,
+.lang-btn:hover{
+  color:var(--gold);
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:130px 7% 90px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(232,185,74,.18), transparent 28%),
+    radial-gradient(circle at 80% 25%, rgba(72,198,255,.15), transparent 28%),
+    radial-gradient(circle at 50% 95%, rgba(124,255,107,.10), transparent 34%),
+    linear-gradient(180deg,#09090e,#07070b);
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  opacity:.35;
+}
+.hero:after{
+  content:"BORICAST";
+  position:absolute;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22vw;
+  font-weight:900;
+  letter-spacing:6px;
+  color:rgba(255,255,255,.025);
+  bottom:5%;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:1050px;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 18px;
+  border:1px solid rgba(232,185,74,.35);
+  color:var(--gold);
+  border-radius:999px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:28px;
+  background:rgba(232,185,74,.08);
+}
+.dot{
+  width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 18px var(--gold);
+}
+.hero h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(64px,12vw,138px);
+  line-height:.84;
+  font-weight:900;
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero h1 span{color:var(--gold)}
+.hero p{
+  color:var(--muted);
+  font-size:clamp(19px,3vw,27px);
+  max-width:820px;
+  margin:0 auto 38px;
+  line-height:1.42;
+}
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:16px 28px;
+  border-radius:999px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:1px;
+  transition:.25s ease;
+}
+.btn.gold{background:var(--gold);color:#111}
+.btn.gold:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(232,185,74,.22)}
+.btn.outline{border:1px solid rgba(255,255,255,.22);color:var(--white)}
+.btn.outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+.light-row{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:46px;
+}
+.light{
+  width:30px;height:30px;border-radius:50%;box-shadow:0 0 26px currentColor;
+}
+.green{color:var(--green);background:var(--green)}
+.blue{color:var(--blue);background:var(--blue)}
+.red{color:var(--red);background:var(--red)}
+.goldlight{color:var(--gold);background:var(--gold)}
+.purple{color:var(--purple);background:var(--purple)}
+
+/* GENERAL */
+section{padding:86px 7%}
+.dark{background:var(--dark)}
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(42px,7vw,82px);
+  line-height:.92;
+  text-transform:uppercase;
+  font-weight:900;
+  margin-bottom:24px;
+}
+.section-title span{color:var(--gold)}
+.section-text{
+  color:var(--muted);
+  font-size:20px;
+  line-height:1.62;
+  max-width:900px;
+}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* INTRO SPLIT */
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:center;
+}
+.chat-preview{
+  background:linear-gradient(180deg,#151520,#0f0f17);
+  border:1px solid rgba(232,185,74,.25);
+  border-radius:28px;
+  padding:28px;
+  box-shadow:0 0 70px rgba(232,185,74,.07);
+}
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  color:var(--gold);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:26px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.live-pill{
+  font-family:'Barlow',sans-serif;
+  font-size:12px;
+  letter-spacing:1px;
+  border:1px solid rgba(124,255,107,.4);
+  color:var(--green);
+  border-radius:999px;
+  padding:6px 10px;
+}
+.bubble{
+  background:#222235;
+  border-radius:20px;
+  padding:17px 19px;
+  margin-bottom:14px;
+  color:var(--white);
+  font-size:18px;
+  line-height:1.45;
+}
+.bubble.host{
+  background:rgba(72,198,255,.12);
+  border:1px solid rgba(72,198,255,.22);
+}
+.bubble.bori{
+  background:rgba(232,185,74,.13);
+  border:1px solid rgba(232,185,74,.25);
+  margin-left:28px;
+}
+.choice-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.choice{
+  padding:11px 14px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:14px;
+  background:rgba(255,255,255,.04);
+}
+
+/* EPISODES */
+.episode-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+  margin-top:46px;
+}
+.ep-card{
+  position:relative;
+  background:linear-gradient(180deg,var(--panel),#101018);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:26px;
+  padding:26px;
+  min-height:245px;
+  overflow:hidden;
+  transition:.25s ease;
+}
+.ep-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(232,185,74,.45);
+  box-shadow:0 20px 45px rgba(0,0,0,.24);
+}
+.ep-card:after{
+  content:"";
+  position:absolute;
+  width:90px;height:90px;
+  border-radius:50%;
+  right:-30px;bottom:-30px;
+  background:rgba(232,185,74,.10);
+  box-shadow:0 0 50px rgba(232,185,74,.1);
+}
+.ep-num{
+  color:var(--gold);
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.ep-card h3{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:32px;
+  line-height:1;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.ep-card p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.48;
+}
+.ep-question{
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--white) !important;
+  font-weight:600;
+}
+
+/* LEVELS */
+.level-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+  margin-top:42px;
+}
+.level-card{
+  background:linear-gradient(145deg,#181824,#101018);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:28px;
+  padding:30px;
+}
+.level-card h3{
+  font-family:'Barlow Condensed',sans-serif;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-size:36px;
+  margin-bottom:14px;
+}
+.level-card p{color:var(--muted);font-size:18px;line-height:1.55}
+
+/* CTA */
+.cta{
+  text-align:center;
+  background:
+    radial-gradient(circle at center, rgba(232,185,74,.15), transparent 45%),
+    #08080d;
+}
+.cta h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(48px,9vw,100px);
+  text-transform:uppercase;
+  line-height:.9;
+  margin-bottom:25px;
+}
+.cta h2 span{color:var(--gold)}
+.cta p{
+  color:var(--muted);
+  max-width:760px;
+  font-size:22px;
+  line-height:1.5;
+  margin:0 auto 34px;
+}
+.footer{
+  padding:36px 7%;
+  text-align:center;
+  color:#858585;
+  font-size:14px;
+  background:#050508;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+@media(max-width:900px){
+  .nav-top{justify-content:center}
+  .nav-links{display:none}
+  .split{grid-template-columns:1fr}
+  section{padding:68px 6%}
+  .hero{padding:120px 6% 75px}
+  .hero h1{font-size:64px}
+  .buttons .btn{width:100%;text-align:center}
+  .bubble.bori{margin-left:0}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="nav-top">
+    <div class="nav-logo">BoriCast</div>
+    <div class="nav-links">
+      <a href="#about" data-en="About" data-es="Acerca">About</a>
+      <a href="#episodes" data-en="Episodes" data-es="Episodios">Episodes</a>
+      <a href="#levels" data-en="Series" data-es="Serie">Series</a>
+      <a href="#start" data-en="Start" data-es="Comenzar">Start</a>
+    </div>
+  </div>
+
+  <div class="language-toggle">
+    <button type="button" class="lang-btn active" data-lang="en">English</button>
+    <span>|</span>
+    <button type="button" class="lang-btn" data-lang="es">Español</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <div class="eyebrow"><span class="dot"></span> <span data-en="BPM Basketball Original Series" data-es="Serie Original de BPM Basketball">BPM Basketball Original Series</span></div>
+
+    <h1 data-en="BoriCast:<br><span>The Business</span><br>of Basketball" data-es="BoriCast:<br><span>El Negocio</span><br>del Baloncesto">BoriCast:<br><span>The Business</span><br>of Basketball</h1>
+
+    <p data-en="A chatbot-to-chatbot series that helps young players understand value, reputation, decisions, pressure, NIL, opportunity, and life beyond the court." data-es="Una serie de chatbot a chatbot que ayuda a jugadores jóvenes a entender valor, reputación, decisiones, presión, NIL, oportunidades y la vida más allá de la cancha.">
+      A chatbot-to-chatbot series that helps young players understand value, reputation, decisions, pressure, NIL, opportunity, and life beyond the court.
+    </p>
+
+    <div class="buttons">
+      <a href="#episodes" class="btn gold" data-en="Explore Episodes" data-es="Explorar Episodios">Explore Episodes</a>
+      <a href="#start" class="btn outline" data-en="Start The Conversation" data-es="Comenzar la Conversación">Start The Conversation</a>
+    </div>
+
+    <div class="light-row" aria-hidden="true">
+      <div class="light green"></div>
+      <div class="light blue"></div>
+      <div class="light red"></div>
+      <div class="light goldlight"></div>
+      <div class="light purple"></div>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="dark">
+  <div class="split">
+    <div>
+      <h2 class="section-title" data-en="This Is Not A Podcast.<br><span>It Starts The Conversation.</span>" data-es="Esto No Es Un Podcast.<br><span>Comienza La Conversación.</span>">This Is Not A Podcast.<br><span>It Starts The Conversation.</span></h2>
+      <p class="section-text" data-en="BoriCast is built for youth basketball players who are already training their game — but still need to understand the business side of basketball. Each short episode ends with a direct question that pulls the player into a real conversation with Bori." data-es="BoriCast está creado para jugadores jóvenes que ya están entrenando su juego — pero todavía necesitan entender el lado de negocio del baloncesto. Cada episodio corto termina con una pregunta directa que lleva al jugador a una conversación real con Bori.">
+        BoriCast is built for youth basketball players who are already training their game — but still need to understand the business side of basketball. Each short episode ends with a direct question that pulls the player into a real conversation with Bori.
+      </p>
+    </div>
+
+    <div class="chat-preview">
+      <div class="chat-header">
+        <span data-en="Live Chatcast" data-es="Chatcast En Vivo">Live Chatcast</span>
+        <span class="live-pill" data-en="Interactive" data-es="Interactivo">Interactive</span>
+      </div>
+
+      <div class="bubble host" data-en="Host Bot: Why does everybody talk about basketball money, but nobody explains how it really works?" data-es="Host Bot: ¿Por qué todo el mundo habla del dinero en el baloncesto, pero nadie explica cómo realmente funciona?">
+        Host Bot: Why does everybody talk about basketball money, but nobody explains how it really works?
+      </div>
+
+      <div class="bubble bori" data-en="Bori: Because most players see the results… not the system. Skill gets you noticed. Value gets you trusted." data-es="Bori: Porque la mayoría de los jugadores ven los resultados… no el sistema. La habilidad hace que te vean. El valor hace que confíen en ti.">
+        Bori: Because most players see the results… not the system. Skill gets you noticed. Value gets you trusted.
+      </div>
+
+      <div class="bubble host" data-en="Host Bot: So what should a player ask first?" data-es="Host Bot: Entonces, ¿qué debe preguntarse un jugador primero?">
+        Host Bot: So what should a player ask first?
+      </div>
+
+      <div class="bubble bori" data-en="Bori: Simple. Why would someone choose YOU?" data-es="Bori: Simple. ¿Por qué alguien te escogería a TI?">
+        Bori: Simple. Why would someone choose YOU?
+      </div>
+
+      <div class="choice-row">
+        <span class="choice" data-en="I don’t know" data-es="No sé">I don’t know</span>
+        <span class="choice" data-en="I think I know" data-es="Creo que sé">I think I know</span>
+        <span class="choice" data-en="Help me understand" data-es="Ayúdame a entender">Help me understand</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="levels">
+  <h2 class="section-title center">Three Levels.<br><span>One Player Mindset System.</span></h2>
+  <p class="section-text center">
+    The first 30 episodes are organized to move a player from awareness, to separation, to long-term mastery.
+  </p>
+
+  <div class="level-grid">
+    <div class="level-card">
+      <h3>Level 1: Awareness</h3>
+      <p>Episodes 001–010 wake players up to value, reputation, influence, discipline, opportunity, and productivity.</p>
+    </div>
+    <div class="level-card">
+      <h3>Level 2: Separation</h3>
+      <p>Episodes 011–020 help players understand role, consistency, coachability, time, weaknesses, and readiness.</p>
+    </div>
+    <div class="level-card">
+      <h3>Level 3: Mastery</h3>
+      <p>Episodes 021–030 build longevity, pressure control, emotional control, self-awareness, failure response, and purpose.</p>
+    </div>
+  </div>
+</section>
+
+<section id="episodes" class="dark">
+  <h2 class="section-title">Featured Episodes.<br><span>Each One Ends With A Question.</span></h2>
+  <p class="section-text">
+    Every episode is short, direct, and built to create a moment of realization. The goal is not to lecture players. The goal is to make them think.
+  </p>
+
+  <div class="episode-grid">
+    <div class="ep-card">
+      <div class="ep-num">Episode 001</div>
+      <h3>Basketball Money</h3>
+      <p>Why players get opportunities — and why talent alone is not enough.</p>
+      <p class="ep-question">Question: Why would someone choose you?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 002</div>
+      <h3>Social Media</h3>
+      <p>What a player posts becomes part of their reputation before they ever meet anyone.</p>
+      <p class="ep-question">Question: What would your page say about you?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 003</div>
+      <h3>Influence</h3>
+      <p>The people around a player shape their decisions more than they realize.</p>
+      <p class="ep-question">Question: Who is really influencing you?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 004</div>
+      <h3>Peak Early</h3>
+      <p>Early success can create comfort, and comfort can stop growth.</p>
+      <p class="ep-question">Question: Are you still improving?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 005</div>
+      <h3>What Coaches Notice</h3>
+      <p>Coaches don’t just watch mistakes. They watch what happens after mistakes.</p>
+      <p class="ep-question">Question: What do you show after a mistake?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 006</div>
+      <h3>After Opportunity</h3>
+      <p>Getting a chance is not the same as being ready to keep it.</p>
+      <p class="ep-question">Question: Are you ready or just chasing?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 007</div>
+      <h3>Comparison</h3>
+      <p>Comparison can teach a player — or destroy their confidence.</p>
+      <p class="ep-question">Question: Are you learning or judging?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 008</div>
+      <h3>Identity</h3>
+      <p>Every player is known for something, whether they choose it or not.</p>
+      <p class="ep-question">Question: What are you known for?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 009</div>
+      <h3>Discipline</h3>
+      <p>The player someone becomes in public starts with who they are in private.</p>
+      <p class="ep-question">Question: Who are you when nobody is watching?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">Episode 010</div>
+      <h3>Busy vs Productive</h3>
+      <p>Not every workout creates progress. Direction matters.</p>
+      <p class="ep-question">Question: Are you busy or improving?</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title center">The Format Is Simple.<br><span>The Impact Is Different.</span></h2>
+  <p class="section-text center">
+    A Host Bot asks the question. Bori answers, challenges the player’s thinking, and ends by inviting the player into a real conversation. No scoring. No judging. Just awareness.
+  </p>
+
+  <div class="level-grid">
+    <div class="level-card">
+      <h3>1. Listen</h3>
+      <p>The player hears a short basketball-business conversation that feels real and direct.</p>
+    </div>
+    <div class="level-card">
+      <h3>2. Reflect</h3>
+      <p>Each episode ends with one personal question the player cannot ignore.</p>
+    </div>
+    <div class="level-card">
+      <h3>3. Talk</h3>
+      <p>The player chooses a response and Bori continues the conversation.</p>
+    </div>
+  </div>
+</section>
+
+<section id="start" class="cta">
+  <h2>Train Your Game.<br><span>Understand Your Value.</span></h2>
+  <p>
+    BoriCast connects BPM cognitive training with the business of basketball — helping young players think beyond the court.
+  </p>
+  <div class="buttons">
+    <a href="#" class="btn gold">Start Episode 001</a>
+    <a href="#" class="btn outline">Talk To Bori</a>
+  </div>
+</section>
+
+<footer class="footer">
+  BoriCast and BPM Basketball provide educational content only. We do not provide legal, financial, contract, representation, or recruiting advice.
+</footer>
+
+<script>
+const langButtons = document.querySelectorAll('.lang-btn');
+const translatable = document.querySelectorAll('[data-en][data-es]');
+
+function setLanguage(lang){
+  translatable.forEach(el => {
+    const text = el.getAttribute(`data-${lang}`);
+    if(text){ el.innerHTML = text; }
+  });
+
+  langButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  document.documentElement.lang = lang;
+  localStorage.setItem('boricastLang', lang);
+}
+
+langButtons.forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+setLanguage(localStorage.getItem('boricastLang') || 'en');
+</script>
+
+</body>
+</html>
