@@ -1,20 +1,31 @@
 // /api/checkout.js
 // Vercel Edge function. Creates a Stripe Checkout Session and returns its URL.
 // Required env: STRIPE_SECRET_KEY
+//
+// Auto-switches between test and live Price IDs based on the Stripe key prefix.
+// This means you can keep testing in the Sandbox forever; just swap STRIPE_SECRET_KEY
+// from sk_test_... to sk_live_... at launch and the live IDs activate automatically.
 
 export const config = {
   runtime: 'edge'
 };
 
-// Maps tier slug → Stripe Price ID. These three live in your Stripe dashboard.
-const PRICES = {
-  lvl2:   'price_1TQ3BcIC7qSWxSMT3WY8iRaH', // Get Ready Hoops — Level 2: Separation — $29
-  lvl3:   'price_1TQ3DQIC7qSWxSMTOdat5OrZ', // Get Ready Hoops — Level 3: Mastery — $39
-  bundle: 'price_1TQ3EtIC7qSWxSMTyYle2eVY'  // Get Ready Hoops — Levels 2 + 3 Bundle — $49
+// ---------------------------------------------------------------------------
+// PRICE IDS — separate sets for test (Sandbox) and live mode
+// ---------------------------------------------------------------------------
+const PRICES_TEST = {
+  lvl2:   'price_1TQ4NsIC7qSWxSMT2fNtzdvc', // Sandbox: Level 2 Separation — $29
+  lvl3:   'price_1TQ4PJIC7qSWxSMTnhnF1oLm', // Sandbox: Level 3 Mastery — $39
+  bundle: 'price_1TQ4QTIC7qSWxSMTLiLBo53y'  // Sandbox: Levels 2 + 3 Bundle — $49
 };
 
-// What each tier unlocks. We pass this to Stripe as metadata so the webhook
-// (when we build it) knows what to grant.
+const PRICES_LIVE = {
+  lvl2:   'price_1TQ3BcIC7qSWxSMT3WY8iRaH', // Live: Level 2 Separation — $29
+  lvl3:   'price_1TQ3DQIC7qSWxSMTOdat5OrZ', // Live: Level 3 Mastery — $39
+  bundle: 'price_1TQ3EtIC7qSWxSMTyYle2eVY'  // Live: Levels 2 + 3 Bundle — $49
+};
+
+// What each tier unlocks. Passed as Stripe metadata so /api/access knows what to grant.
 const UNLOCKS = {
   lvl2:   'level2',
   lvl3:   'level3',
@@ -26,9 +37,13 @@ export default async function handler(req) {
     return jsonError(405, 'Method not allowed');
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
     return jsonError(500, 'Server not configured');
   }
+
+  // Pick the right price set based on which key is loaded
+  const PRICES = stripeKey.startsWith('sk_live_') ? PRICES_LIVE : PRICES_TEST;
 
   let body;
   try {
@@ -66,7 +81,7 @@ export default async function handler(req) {
     stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+        'Authorization': `Bearer ${stripeKey}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: params.toString()
