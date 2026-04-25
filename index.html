@@ -66,14 +66,16 @@ a{text-decoration:none;color:inherit}
 .buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
 .btn{padding:16px 28px;border-radius:999px;text-transform:uppercase;font-weight:800;letter-spacing:1px;transition:.25s ease;display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:none;font-family:'Barlow',sans-serif;font-size:15px;text-decoration:none;}
 .btn.gold{background:var(--gold);color:#111}
-.btn.gold:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(232,185,74,.22)}
+.btn.gold:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(232,185,74,.32)}
 .btn.outline{border:1px solid rgba(255,255,255,.26);color:var(--white);background:transparent}
 .btn.outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
 .btn.coming{opacity:.85;cursor:not-allowed}
 .btn.coming:hover{transform:none;box-shadow:none;border-color:rgba(255,255,255,.26);color:var(--white)}
 .coming-tag{display:inline-block;font-size:10px;background:rgba(0,0,0,.22);color:inherit;padding:3px 9px;border-radius:8px;letter-spacing:1.5px;font-weight:700;}
 .btn.outline .coming-tag{background:rgba(232,185,74,.2);color:var(--gold)}
-.live-tag{display:inline-block;font-size:10px;background:rgba(0,0,0,.18);color:#111;padding:3px 9px;border-radius:8px;letter-spacing:1.5px;font-weight:700;}
+.live-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;background:rgba(0,0,0,.18);color:#111;padding:3px 9px;border-radius:8px;letter-spacing:1.5px;font-weight:700;}
+.live-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:#cc0030;box-shadow:0 0 8px #ff3a5e;animation:livePulse 1.6s ease-in-out infinite;}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.85)}}
 
 .light-row{display:flex;justify-content:center;gap:14px;margin-top:50px;}
 .light{width:26px;height:26px;border-radius:50%;box-shadow:0 0 22px currentColor;}
@@ -100,16 +102,25 @@ section{padding:86px 7%}
 .bubble strong{color:var(--gold);display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;opacity:.8}
 .bubble.host strong{color:var(--blue)}
 .chat-try-link{display:block;margin-top:20px;text-align:center;padding:14px;border:1px dashed rgba(124,255,107,.35);border-radius:16px;color:var(--green);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:13px;transition:.2s ease;}
-.chat-try-link:hover{background:rgba(124,255,107,.06);border-style:solid}
+.chat-try-link:hover{background:rgba(124,255,107,.06);border-style:solid;color:var(--gold);border-color:rgba(232,185,74,.45)}
 
 .episode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:46px;}
-.ep-card{position:relative;background:linear-gradient(180deg,var(--panel),#101018);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:26px;min-height:245px;overflow:hidden;transition:.25s ease;}
+.ep-card{position:relative;display:block;background:linear-gradient(180deg,var(--panel),#101018);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:26px;min-height:245px;overflow:hidden;transition:.25s ease;color:inherit;}
 .ep-card:hover{transform:translateY(-6px);border-color:rgba(232,185,74,.45);box-shadow:0 20px 45px rgba(0,0,0,.24);}
 .ep-card:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-30px;bottom:-30px;background:rgba(232,185,74,.10);box-shadow:0 0 50px rgba(232,185,74,.1);}
-.ep-num{color:var(--gold);font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.ep-num{color:var(--gold);font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .ep-card h3{font-family:'Barlow Condensed',sans-serif;font-size:30px;line-height:1;text-transform:uppercase;margin-bottom:14px;}
 .ep-card p{color:var(--muted);font-size:16px;line-height:1.5;}
 .ep-question{margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08);color:var(--white) !important;font-weight:600;}
+
+/* Live episode card — gold highlight + pulsing dot */
+.ep-card.live{border-color:rgba(232,185,74,.5);background:linear-gradient(180deg,#1a1825,#101018);}
+.ep-card.live:hover{border-color:var(--gold);box-shadow:0 24px 55px rgba(232,185,74,.18);}
+.ep-live-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#111;padding:3px 9px;border-radius:8px;font-size:10px;letter-spacing:1.5px;font-weight:800;text-transform:uppercase;}
+.ep-live-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:#cc0030;box-shadow:0 0 8px #ff3a5e;animation:livePulse 1.6s ease-in-out infinite;}
+.ep-watch-cta{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:13px;}
+.ep-watch-cta::after{content:"→";transition:transform .2s ease;}
+.ep-card.live:hover .ep-watch-cta::after{transform:translateX(5px);}
 
 .level-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:42px;}
 .level-card{background:linear-gradient(145deg,#181824,#101018);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:30px;}
@@ -158,7 +169,7 @@ section{padding:86px 7%}
   <div class="hero-content">
     <div class="eyebrow">
       <span class="dot"></span>
-      <span data-en="Launching Soon" data-es="Próximamente">Launching Soon</span>
+      <span data-en="Episode 001 Is Live" data-es="Episodio 001 Está En Vivo">Episode 001 Is Live</span>
     </div>
 
     <h1 data-en="Get Ready <span>Hoops</span>" data-es="Get Ready <span>Hoops</span>">Get Ready <span>Hoops</span></h1>
@@ -170,10 +181,10 @@ section{padding:86px 7%}
     </p>
 
     <div class="buttons">
-      <button type="button" class="btn outline coming">
+      <a href="/episode-001.html" class="btn gold">
         <span data-en="Start Episode 001" data-es="Empezar Episodio 001">Start Episode 001</span>
-        <span class="coming-tag" data-en="Soon" data-es="Pronto">Soon</span>
-      </button>
+        <span class="live-tag" data-en="Live" data-es="En Vivo">Live</span>
+      </a>
     </div>
 
     <div class="light-row" aria-hidden="true">
@@ -220,6 +231,9 @@ section{padding:86px 7%}
         <strong data-en="Bori" data-es="Bori">Bori</strong>
         <span data-en="Simple. Why would someone choose YOU?" data-es="Simple. ¿Por qué alguien te escogería a TI?">Simple. Why would someone choose YOU?</span>
       </div>
+
+      <a href="/episode-001.html" class="chat-try-link" data-en="Continue The Conversation →" data-es="Continúa La Conversación →">Continue The Conversation →</a>
+    </div>
   </div>
 </section>
 
@@ -239,7 +253,7 @@ section{padding:86px 7%}
       <p data-en="Episodes 011–020 help players understand role, consistency, coachability, time, weaknesses, and readiness." data-es="Los episodios 011–020 ayudan al jugador a entender su rol, consistencia, adaptabilidad, tiempo, debilidades y preparación.">Episodes 011–020 help players understand role, consistency, coachability, time, weaknesses, and readiness.</p>
     </div>
     <div class="level-card">
-      <h3 data-en="Level 3: Mastery" data-es="Nivel 3: Maestría">Level 3: Mastery</h3>
+      <h3 data-en="Level 3: Mastery" data-es="Nivel 3: Maestría">Level 3: Maestría</h3>
       <p data-en="Episodes 021–030 build longevity, pressure control, emotional control, self-awareness, failure response, and purpose." data-es="Los episodios 021–030 construyen longevidad, control bajo presión, control emocional, auto-conciencia, respuesta ante el fracaso y propósito.">Episodes 021–030 build longevity, pressure control, emotional control, self-awareness, failure response, and purpose.</p>
     </div>
   </div>
@@ -252,7 +266,18 @@ section{padding:86px 7%}
   </p>
 
   <div class="episode-grid">
-    <div class="ep-card"><div class="ep-num" data-en="Episode 001" data-es="Episodio 001">Episode 001</div><h3 data-en="Basketball Money" data-es="El Dinero Del Baloncesto">Basketball Money</h3><p data-en="Why players get opportunities — and why talent alone is not enough." data-es="Por qué los jugadores reciben oportunidades — y por qué el talento solo no es suficiente.">Why players get opportunities — and why talent alone is not enough.</p><p class="ep-question" data-en="Question: Why would someone choose you?" data-es="Pregunta: ¿Por qué alguien te escogería a ti?">Question: Why would someone choose you?</p></div>
+
+    <a href="/episode-001.html" class="ep-card live">
+      <div class="ep-num">
+        <span data-en="Episode 001" data-es="Episodio 001">Episode 001</span>
+        <span class="ep-live-pill" data-en="Live" data-es="En Vivo">Live</span>
+      </div>
+      <h3 data-en="Basketball Money" data-es="El Dinero Del Baloncesto">Basketball Money</h3>
+      <p data-en="Why players get opportunities — and why talent alone is not enough." data-es="Por qué los jugadores reciben oportunidades — y por qué el talento solo no es suficiente.">Why players get opportunities — and why talent alone is not enough.</p>
+      <p class="ep-question" data-en="Question: Why would someone choose you?" data-es="Pregunta: ¿Por qué alguien te escogería a ti?">Question: Why would someone choose you?</p>
+      <div class="ep-watch-cta" data-en="Start Episode" data-es="Empezar Episodio">Start Episode</div>
+    </a>
+
     <div class="ep-card"><div class="ep-num" data-en="Episode 002" data-es="Episodio 002">Episode 002</div><h3 data-en="Social Media" data-es="Redes Sociales">Social Media</h3><p data-en="What a player posts becomes part of their reputation before they ever meet anyone." data-es="Lo que un jugador publica se convierte en parte de su reputación antes de conocer a alguien.">What a player posts becomes part of their reputation before they ever meet anyone.</p><p class="ep-question" data-en="Question: What would your page say about you?" data-es="Pregunta: ¿Qué diría tu página sobre ti?">Question: What would your page say about you?</p></div>
     <div class="ep-card"><div class="ep-num" data-en="Episode 003" data-es="Episodio 003">Episode 003</div><h3 data-en="Influence" data-es="Influencia">Influence</h3><p data-en="The people around a player shape their decisions more than they realize." data-es="Las personas alrededor de un jugador moldean sus decisiones más de lo que piensan.">The people around a player shape their decisions more than they realize.</p><p class="ep-question" data-en="Question: Who is really influencing you?" data-es="Pregunta: ¿Quién realmente te está influenciando?">Question: Who is really influencing you?</p></div>
     <div class="ep-card"><div class="ep-num" data-en="Episode 004" data-es="Episodio 004">Episode 004</div><h3 data-en="Peak Early" data-es="Pico Temprano">Peak Early</h3><p data-en="Early success can create comfort, and comfort can stop growth." data-es="El éxito temprano puede crear comodidad, y la comodidad puede detener el crecimiento.">Early success can create comfort, and comfort can stop growth.</p><p class="ep-question" data-en="Question: Are you still improving?" data-es="Pregunta: ¿Sigues mejorando?">Question: Are you still improving?</p></div>
@@ -280,14 +305,14 @@ section{padding:86px 7%}
 
 <section id="start" class="cta">
   <h2 data-en="Train Your Game.<br><span>Understand Your Value.</span>" data-es="Entrena Tu Juego.<br><span>Entiende Tu Valor.</span>">Train Your Game.<br><span>Understand Your Value.</span></h2>
-  <p data-en="Episode 001 launches soon." data-es="El Episodio 001 se lanza pronto.">
-    Episode 001 launches soon.
+  <p data-en="Episode 001 is live. Free to play. No account needed." data-es="El Episodio 001 está en vivo. Gratis. Sin cuenta.">
+    Episode 001 is live. Free to play. No account needed.
   </p>
   <div class="buttons">
-    <button type="button" class="btn outline coming">
+    <a href="/episode-001.html" class="btn gold">
       <span data-en="Start Episode 001" data-es="Empezar Episodio 001">Start Episode 001</span>
-      <span class="coming-tag" data-en="Soon" data-es="Pronto">Soon</span>
-    </button>
+      <span class="live-tag" data-en="Live" data-es="En Vivo">Live</span>
+    </a>
   </div>
 </section>
 
@@ -313,14 +338,16 @@ function setLanguage(lang){
   });
 
   document.documentElement.lang = lang;
-  localStorage.setItem('grhLang', lang);
+  try { localStorage.setItem('grhLang', lang); } catch(e) {}
 }
 
 langButtons.forEach(btn => {
   btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
 });
 
-setLanguage(localStorage.getItem('grhLang') || 'en');
+let savedLang = 'en';
+try { savedLang = localStorage.getItem('grhLang') || 'en'; } catch(e) {}
+setLanguage(savedLang);
 </script>
 
 </body>
