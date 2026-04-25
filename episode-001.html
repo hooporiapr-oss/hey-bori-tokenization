@@ -99,7 +99,16 @@
   .msg.bori .who { color: var(--bori); }
   .msg.player .who { color: var(--player); }
   .msg .said { white-space: pre-wrap; word-wrap: break-word; }
-  .msg .said.thinking { color: var(--muted); font-style: italic; }
+
+  /* Blinking cursor while streaming */
+  .said.streaming::after {
+    content: "▍";
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--accent);
+    animation: blink 1s steps(2, start) infinite;
+  }
+  @keyframes blink { to { visibility: hidden; } }
 
   .composer {
     display: flex; gap: 8px; margin-top: 12px;
@@ -163,9 +172,7 @@
 
   <!-- STEP 1: LISTEN -->
   <div class="step-label" data-i18n="step1">Step 1 — Listen</div>
-  <div class="script" id="script">
-    <!-- lines injected by JS so they swap with language -->
-  </div>
+  <div class="script" id="script"></div>
 
   <!-- STEP 2: REFLECT -->
   <div class="step-label" data-i18n="step2">Step 2 — Reflect</div>
@@ -222,8 +229,9 @@
       ctaBody: "There are 29 more. Each one ends with a question you can't ignore.",
       ctaBtn: "See All Episodes",
       disc: "Get Ready Hoops provides educational content only. We do not provide legal, financial, contract, representation, or recruiting advice. For your specific situation, work with a sports attorney, CPA, or certified advisor.",
-      thinking: "Thinking…",
       errGeneric: "Something went wrong. Try again in a moment.",
+      errRate: "You're going a bit fast. Wait a moment and try again.",
+      youLabel: "You",
       script: [
         { who: "Host Bot", role: "host", said: "Why does everybody talk about basketball money, but nobody explains how it really works?" },
         { who: "Bori", role: "bori", said: "Because most players see the results, not the system. They see the contract, the deal, the shoes. They don't see the years of choices that made someone worth choosing." },
@@ -252,8 +260,9 @@
       ctaBody: "Quedan 29 más. Cada uno termina con una pregunta que no puedes ignorar.",
       ctaBtn: "Ver Todos los Episodios",
       disc: "Get Ready Hoops ofrece contenido educativo únicamente. No brindamos asesoría legal, financiera, contractual, de representación ni de reclutamiento. Para tu situación específica, trabaja con un abogado deportivo, CPA o asesor certificado.",
-      thinking: "Pensando…",
       errGeneric: "Algo salió mal. Intenta de nuevo en un momento.",
+      errRate: "Vas un poco rápido. Espera un momento e intenta de nuevo.",
+      youLabel: "Tú",
       script: [
         { who: "Host Bot", role: "host", said: "¿Por qué todo el mundo habla del basketball money, pero nadie explica cómo funciona de verdad?" },
         { who: "Bori", role: "bori", said: "Porque la mayoría de los jugadores ve los resultados, no el sistema. Ven el contrato, el deal, los tenis. No ven los años de decisiones que hicieron a alguien digno de ser elegido." },
@@ -275,10 +284,8 @@
     STR[lang].script.forEach(line => {
       const row = document.createElement("div");
       row.className = "line";
-      row.innerHTML = `
-        <div class="who ${line.role}">${line.who}</div>
-        <div class="said"></div>
-      `;
+      row.innerHTML = `<div class="who ${line.role}"></div><div class="said"></div>`;
+      row.querySelector(".who").textContent = line.who;
       row.querySelector(".said").textContent = line.said;
       wrap.appendChild(row);
     });
@@ -302,21 +309,19 @@
   document.getElementById("lang-en").addEventListener("click", () => { lang = "en"; applyLang(); });
   document.getElementById("lang-es").addEventListener("click", () => { lang = "es"; applyLang(); });
 
-  // ---------- chat with Bori ----------
-  // We don't send the scripted opener as part of conversation history — that's framing.
-  // The conversation history starts empty; the player's first message is their answer to the question.
+  // ---------- streaming chat with Bori ----------
   const history = [];
-
   const chatEl = document.getElementById("chat");
   const inputEl = document.getElementById("input");
   const sendEl = document.getElementById("send");
   const errEl = document.getElementById("err");
 
-  function addMessage(role, text, opts = {}) {
+  function addMessage(role, text) {
     const div = document.createElement("div");
     div.className = `msg ${role}`;
-    const who = role === "bori" ? "Bori" : (lang === "es" ? "Tú" : "You");
-    div.innerHTML = `<div class="who">${who}</div><div class="said${opts.thinking ? " thinking" : ""}"></div>`;
+    const who = role === "bori" ? "Bori" : STR[lang].youLabel;
+    div.innerHTML = `<div class="who"></div><div class="said"></div>`;
+    div.querySelector(".who").textContent = who;
     div.querySelector(".said").textContent = text;
     chatEl.appendChild(div);
     chatEl.scrollTop = chatEl.scrollHeight;
@@ -342,7 +347,14 @@
     inputEl.value = "";
     sendEl.disabled = true;
 
-    const thinkingNode = addMessage("bori", STR[lang].thinking, { thinking: true });
+    // Create empty Bori bubble with streaming cursor
+    const boriNode = addMessage("bori", "");
+    const saidEl = boriNode.querySelector(".said");
+    saidEl.classList.add("streaming");
+
+    let accumulated = "";
+    let gotAnyText = false;
+    let hadError = false;
 
     try {
       const res = await fetch("/api/episode-001", {
@@ -351,32 +363,71 @@
         body: JSON.stringify({ messages: history })
       });
 
-      if (!res.ok) {
-        thinkingNode.remove();
-        showError(STR[lang].errGeneric);
+      // Handle non-stream errors (rate limit, server error, etc.)
+      if (!res.ok || !res.body) {
+        saidEl.classList.remove("streaming");
+        boriNode.remove();
+        if (res.status === 429) showError(STR[lang].errRate);
+        else showError(STR[lang].errGeneric);
         sendEl.disabled = false;
         return;
       }
 
-      const data = await res.json();
-      thinkingNode.remove();
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
 
-      const reply = (data.reply || "").trim();
-      if (!reply) {
-        showError(STR[lang].errGeneric);
-        sendEl.disabled = false;
-        return;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Parse SSE events (separated by blank lines)
+        const events = buffer.split("\n\n");
+        buffer = events.pop();
+
+        for (const evt of events) {
+          for (const line of evt.split("\n")) {
+            if (!line.startsWith("data:")) continue;
+            const data = line.slice(5).trim();
+            if (!data) continue;
+
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.type === "text") {
+                accumulated += parsed.text;
+                saidEl.textContent = accumulated;
+                gotAnyText = true;
+                chatEl.scrollTop = chatEl.scrollHeight;
+              } else if (parsed.type === "error") {
+                hadError = true;
+              }
+              // "done" handled implicitly when stream closes
+            } catch {
+              // ignore
+            }
+          }
+        }
       }
-
-      addMessage("bori", reply);
-      history.push({ role: "assistant", content: reply });
-    } catch (e) {
-      thinkingNode.remove();
-      showError(STR[lang].errGeneric);
-    } finally {
-      sendEl.disabled = false;
-      inputEl.focus();
+    } catch {
+      hadError = true;
     }
+
+    saidEl.classList.remove("streaming");
+
+    if (!gotAnyText) {
+      boriNode.remove();
+      showError(STR[lang].errGeneric);
+    } else {
+      history.push({ role: "assistant", content: accumulated });
+      if (hadError) {
+        // partial reply came through but stream errored — leave the message, no extra error UI
+      }
+    }
+
+    sendEl.disabled = false;
+    inputEl.focus();
   }
 
   sendEl.addEventListener("click", send);
@@ -387,7 +438,6 @@
     }
   });
 
-  // initial render
   applyLang();
 </script>
 
