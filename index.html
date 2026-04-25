@@ -80,10 +80,10 @@ a{text-decoration:none;color:inherit}
 .light-row{display:flex;justify-content:center;gap:14px;margin-top:50px;}
 .light{width:26px;height:26px;border-radius:50%;box-shadow:0 0 22px currentColor;}
 .green{color:var(--green);background:var(--green)}
-.blue{color:var(--blue);background:var(--blue)}
-.red{color:var(--red);background:var(--red)}
+.blue-light{color:var(--blue);background:var(--blue)}
+.red-light{color:var(--red);background:var(--red)}
 .goldlight{color:var(--gold);background:var(--gold)}
-.purple{color:var(--purple);background:var(--purple)}
+.purple-light{color:var(--purple);background:var(--purple)}
 
 section{padding:86px 7%}
 .dark{background:var(--dark)}
@@ -108,7 +108,7 @@ section{padding:86px 7%}
 .ep-card{position:relative;display:block;background:linear-gradient(180deg,var(--panel),#101018);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:26px;min-height:245px;overflow:hidden;transition:.25s ease;color:inherit;}
 .ep-card:hover{transform:translateY(-6px);border-color:rgba(232,185,74,.45);box-shadow:0 20px 45px rgba(0,0,0,.24);}
 .ep-card:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-30px;bottom:-30px;background:rgba(232,185,74,.10);box-shadow:0 0 50px rgba(232,185,74,.1);}
-.ep-num{color:var(--gold);font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.ep-num{color:var(--gold);font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .ep-card h3{font-family:'Barlow Condensed',sans-serif;font-size:30px;line-height:1;text-transform:uppercase;margin-bottom:14px;}
 .ep-card p{color:var(--muted);font-size:16px;line-height:1.5;}
 .ep-question{margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08);color:var(--white) !important;font-weight:600;}
@@ -122,10 +122,23 @@ section{padding:86px 7%}
 .ep-watch-cta::after{content:"→";transition:transform .2s ease;}
 .ep-card.live:hover .ep-watch-cta::after{transform:translateX(5px);}
 
+/* Coming Soon pill — quieter than Live */
+.ep-soon-pill{display:inline-block;background:rgba(255,255,255,.08);color:var(--muted);padding:3px 9px;border-radius:8px;font-size:10px;letter-spacing:1.5px;font-weight:800;text-transform:uppercase;}
+
 .level-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:42px;}
-.level-card{background:linear-gradient(145deg,#181824,#101018);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:30px;}
+.level-card{background:linear-gradient(145deg,#181824,#101018);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:30px;display:flex;flex-direction:column;}
 .level-card h3{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;color:var(--gold);font-size:34px;margin-bottom:14px;}
-.level-card p{color:var(--muted);font-size:17px;line-height:1.55}
+.level-card p{color:var(--muted);font-size:17px;line-height:1.55;flex:1;}
+.level-preview-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12px;color:var(--gold);transition:gap .2s ease;}
+.level-preview-link::after{content:"→";transition:transform .2s ease;}
+.level-preview-link:hover{color:var(--white);}
+.level-preview-link:hover::after{transform:translateX(4px);}
+.level-card.lvl2 h3{color:var(--blue)}
+.level-card.lvl2 .level-preview-link{color:var(--blue)}
+.level-card.lvl2{border-color:rgba(72,198,255,.18)}
+.level-card.lvl3 h3{color:var(--purple)}
+.level-card.lvl3 .level-preview-link{color:var(--purple)}
+.level-card.lvl3{border-color:rgba(182,108,255,.18)}
 
 .cta{text-align:center;background:radial-gradient(circle at center, rgba(232,185,74,.15), transparent 45%),#08080d;}
 .cta h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(48px,9vw,100px);text-transform:uppercase;line-height:.9;margin-bottom:25px;}
@@ -169,7 +182,7 @@ section{padding:86px 7%}
   <div class="hero-content">
     <div class="eyebrow">
       <span class="dot"></span>
-      <span data-en="Episode 001 Is Live" data-es="Episodio 001 Está En Vivo">Episode 001 Is Live</span>
+      <span data-en="Episodes 001 &amp; 002 Are Live" data-es="Episodios 001 y 002 Están En Vivo">Episodes 001 &amp; 002 Are Live</span>
     </div>
 
     <h1 data-en="Get Ready <span>Hoops</span>" data-es="Get Ready <span>Hoops</span>">Get Ready <span>Hoops</span></h1>
@@ -189,10 +202,10 @@ section{padding:86px 7%}
 
     <div class="light-row" aria-hidden="true">
       <div class="light green"></div>
-      <div class="light blue"></div>
-      <div class="light red"></div>
+      <div class="light blue-light"></div>
+      <div class="light red-light"></div>
       <div class="light goldlight"></div>
-      <div class="light purple"></div>
+      <div class="light purple-light"></div>
     </div>
   </div>
 </header>
@@ -248,13 +261,15 @@ section{padding:86px 7%}
       <h3 data-en="Level 1: Awareness" data-es="Nivel 1: Conciencia">Level 1: Awareness</h3>
       <p data-en="Episodes 001–010 wake players up to value, reputation, influence, discipline, opportunity, and productivity." data-es="Los episodios 001–010 despiertan al jugador al valor, la reputación, la influencia, la disciplina, la oportunidad y la productividad.">Episodes 001–010 wake players up to value, reputation, influence, discipline, opportunity, and productivity.</p>
     </div>
-    <div class="level-card">
+    <div class="level-card lvl2">
       <h3 data-en="Level 2: Separation" data-es="Nivel 2: Separación">Level 2: Separation</h3>
       <p data-en="Episodes 011–020 help players understand role, consistency, coachability, time, weaknesses, and readiness." data-es="Los episodios 011–020 ayudan al jugador a entender su rol, consistencia, adaptabilidad, tiempo, debilidades y preparación.">Episodes 011–020 help players understand role, consistency, coachability, time, weaknesses, and readiness.</p>
+      <a href="/unlock.html" class="level-preview-link" data-en="Preview Level 2" data-es="Vista Previa Nivel 2">Preview Level 2</a>
     </div>
-    <div class="level-card">
-      <h3 data-en="Level 3: Mastery" data-es="Nivel 3: Maestría">Level 3: Maestría</h3>
+    <div class="level-card lvl3">
+      <h3 data-en="Level 3: Mastery" data-es="Nivel 3: Maestría">Level 3: Mastery</h3>
       <p data-en="Episodes 021–030 build longevity, pressure control, emotional control, self-awareness, failure response, and purpose." data-es="Los episodios 021–030 construyen longevidad, control bajo presión, control emocional, auto-conciencia, respuesta ante el fracaso y propósito.">Episodes 021–030 build longevity, pressure control, emotional control, self-awareness, failure response, and purpose.</p>
+      <a href="/unlock.html" class="level-preview-link" data-en="Preview Level 3" data-es="Vista Previa Nivel 3">Preview Level 3</a>
     </div>
   </div>
 </section>
@@ -278,15 +293,97 @@ section{padding:86px 7%}
       <div class="ep-watch-cta" data-en="Start Episode" data-es="Empezar Episodio">Start Episode</div>
     </a>
 
-    <div class="ep-card"><div class="ep-num" data-en="Episode 002" data-es="Episodio 002">Episode 002</div><h3 data-en="Social Media" data-es="Redes Sociales">Social Media</h3><p data-en="What a player posts becomes part of their reputation before they ever meet anyone." data-es="Lo que un jugador publica se convierte en parte de su reputación antes de conocer a alguien.">What a player posts becomes part of their reputation before they ever meet anyone.</p><p class="ep-question" data-en="Question: What would your page say about you?" data-es="Pregunta: ¿Qué diría tu página sobre ti?">Question: What would your page say about you?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 003" data-es="Episodio 003">Episode 003</div><h3 data-en="Influence" data-es="Influencia">Influence</h3><p data-en="The people around a player shape their decisions more than they realize." data-es="Las personas alrededor de un jugador moldean sus decisiones más de lo que piensan.">The people around a player shape their decisions more than they realize.</p><p class="ep-question" data-en="Question: Who is really influencing you?" data-es="Pregunta: ¿Quién realmente te está influenciando?">Question: Who is really influencing you?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 004" data-es="Episodio 004">Episode 004</div><h3 data-en="Peak Early" data-es="Pico Temprano">Peak Early</h3><p data-en="Early success can create comfort, and comfort can stop growth." data-es="El éxito temprano puede crear comodidad, y la comodidad puede detener el crecimiento.">Early success can create comfort, and comfort can stop growth.</p><p class="ep-question" data-en="Question: Are you still improving?" data-es="Pregunta: ¿Sigues mejorando?">Question: Are you still improving?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 005" data-es="Episodio 005">Episode 005</div><h3 data-en="What Coaches Notice" data-es="Lo Que Los Coaches Notan">What Coaches Notice</h3><p data-en="Coaches don't just watch mistakes. They watch what happens after mistakes." data-es="Los coaches no solo observan los errores. Observan lo que pasa después del error.">Coaches don't just watch mistakes. They watch what happens after mistakes.</p><p class="ep-question" data-en="Question: What do you show after a mistake?" data-es="Pregunta: ¿Qué muestras después de un error?">Question: What do you show after a mistake?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 006" data-es="Episodio 006">Episode 006</div><h3 data-en="After Opportunity" data-es="Después De La Oportunidad">After Opportunity</h3><p data-en="Getting a chance is not the same as being ready to keep it." data-es="Recibir una oportunidad no es lo mismo que estar listo para mantenerla.">Getting a chance is not the same as being ready to keep it.</p><p class="ep-question" data-en="Question: Are you ready or just chasing?" data-es="Pregunta: ¿Estás listo o solo persiguiendo?">Question: Are you ready or just chasing?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 007" data-es="Episodio 007">Episode 007</div><h3 data-en="Comparison" data-es="Comparación">Comparison</h3><p data-en="Comparison can teach a player — or destroy their confidence." data-es="La comparación puede enseñar al jugador — o destruir su confianza.">Comparison can teach a player — or destroy their confidence.</p><p class="ep-question" data-en="Question: Are you learning or judging?" data-es="Pregunta: ¿Estás aprendiendo o juzgando?">Question: Are you learning or judging?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 008" data-es="Episodio 008">Episode 008</div><h3 data-en="Identity" data-es="Identidad">Identity</h3><p data-en="Every player is known for something, whether they choose it or not." data-es="Cada jugador es conocido por algo, lo elija o no.">Every player is known for something, whether they choose it or not.</p><p class="ep-question" data-en="Question: What are you known for?" data-es="Pregunta: ¿Por qué eres conocido?">Question: What are you known for?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 009" data-es="Episodio 009">Episode 009</div><h3 data-en="Discipline" data-es="Disciplina">Discipline</h3><p data-en="Who a player becomes in public starts with who they are in private." data-es="Quien el jugador es en público empieza con quien es en privado.">Who a player becomes in public starts with who they are in private.</p><p class="ep-question" data-en="Question: Who are you when nobody is watching?" data-es="Pregunta: ¿Quién eres cuando nadie te ve?">Question: Who are you when nobody is watching?</p></div>
-    <div class="ep-card"><div class="ep-num" data-en="Episode 010" data-es="Episodio 010">Episode 010</div><h3 data-en="Busy vs Productive" data-es="Ocupado vs Productivo">Busy vs Productive</h3><p data-en="Not every workout creates progress. Direction matters." data-es="No todo entrenamiento crea progreso. La dirección importa.">Not every workout creates progress. Direction matters.</p><p class="ep-question" data-en="Question: Are you busy or improving?" data-es="Pregunta: ¿Estás ocupado o mejorando?">Question: Are you busy or improving?</p></div>
+    <a href="/episode-002.html" class="ep-card live">
+      <div class="ep-num">
+        <span data-en="Episode 002" data-es="Episodio 002">Episode 002</span>
+        <span class="ep-live-pill" data-en="Live" data-es="En Vivo">Live</span>
+      </div>
+      <h3 data-en="Social Media" data-es="Redes Sociales">Social Media</h3>
+      <p data-en="What a player posts becomes part of their reputation before they ever meet anyone." data-es="Lo que un jugador publica se convierte en parte de su reputación antes de conocer a alguien.">What a player posts becomes part of their reputation before they ever meet anyone.</p>
+      <p class="ep-question" data-en="Question: What would your page say about you?" data-es="Pregunta: ¿Qué diría tu página sobre ti?">Question: What would your page say about you?</p>
+      <div class="ep-watch-cta" data-en="Start Episode" data-es="Empezar Episodio">Start Episode</div>
+    </a>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 003" data-es="Episodio 003">Episode 003</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Influence" data-es="Influencia">Influence</h3>
+      <p data-en="The people around a player shape their decisions more than they realize." data-es="Las personas alrededor de un jugador moldean sus decisiones más de lo que piensan.">The people around a player shape their decisions more than they realize.</p>
+      <p class="ep-question" data-en="Question: Who is really influencing you?" data-es="Pregunta: ¿Quién realmente te está influenciando?">Question: Who is really influencing you?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 004" data-es="Episodio 004">Episode 004</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Peak Early" data-es="Pico Temprano">Peak Early</h3>
+      <p data-en="Early success can create comfort, and comfort can stop growth." data-es="El éxito temprano puede crear comodidad, y la comodidad puede detener el crecimiento.">Early success can create comfort, and comfort can stop growth.</p>
+      <p class="ep-question" data-en="Question: Are you still improving?" data-es="Pregunta: ¿Sigues mejorando?">Question: Are you still improving?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 005" data-es="Episodio 005">Episode 005</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="What Coaches Notice" data-es="Lo Que Los Coaches Notan">What Coaches Notice</h3>
+      <p data-en="Coaches don't just watch mistakes. They watch what happens after mistakes." data-es="Los coaches no solo observan los errores. Observan lo que pasa después del error.">Coaches don't just watch mistakes. They watch what happens after mistakes.</p>
+      <p class="ep-question" data-en="Question: What do you show after a mistake?" data-es="Pregunta: ¿Qué muestras después de un error?">Question: What do you show after a mistake?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 006" data-es="Episodio 006">Episode 006</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="After Opportunity" data-es="Después De La Oportunidad">After Opportunity</h3>
+      <p data-en="Getting a chance is not the same as being ready to keep it." data-es="Recibir una oportunidad no es lo mismo que estar listo para mantenerla.">Getting a chance is not the same as being ready to keep it.</p>
+      <p class="ep-question" data-en="Question: Are you ready or just chasing?" data-es="Pregunta: ¿Estás listo o solo persiguiendo?">Question: Are you ready or just chasing?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 007" data-es="Episodio 007">Episode 007</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Comparison" data-es="Comparación">Comparison</h3>
+      <p data-en="Comparison can teach a player — or destroy their confidence." data-es="La comparación puede enseñar al jugador — o destruir su confianza.">Comparison can teach a player — or destroy their confidence.</p>
+      <p class="ep-question" data-en="Question: Are you learning or judging?" data-es="Pregunta: ¿Estás aprendiendo o juzgando?">Question: Are you learning or judging?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 008" data-es="Episodio 008">Episode 008</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Identity" data-es="Identidad">Identity</h3>
+      <p data-en="Every player is known for something, whether they choose it or not." data-es="Cada jugador es conocido por algo, lo elija o no.">Every player is known for something, whether they choose it or not.</p>
+      <p class="ep-question" data-en="Question: What are you known for?" data-es="Pregunta: ¿Por qué eres conocido?">Question: What are you known for?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 009" data-es="Episodio 009">Episode 009</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Discipline" data-es="Disciplina">Discipline</h3>
+      <p data-en="Who a player becomes in public starts with who they are in private." data-es="Quien el jugador es en público empieza con quien es en privado.">Who a player becomes in public starts with who they are in private.</p>
+      <p class="ep-question" data-en="Question: Who are you when nobody is watching?" data-es="Pregunta: ¿Quién eres cuando nadie te ve?">Question: Who are you when nobody is watching?</p>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-num">
+        <span data-en="Episode 010" data-es="Episodio 010">Episode 010</span>
+        <span class="ep-soon-pill" data-en="Coming Soon" data-es="Próximamente">Coming Soon</span>
+      </div>
+      <h3 data-en="Busy vs Productive" data-es="Ocupado vs Productivo">Busy vs Productive</h3>
+      <p data-en="Not every workout creates progress. Direction matters." data-es="No todo entrenamiento crea progreso. La dirección importa.">Not every workout creates progress. Direction matters.</p>
+      <p class="ep-question" data-en="Question: Are you busy or improving?" data-es="Pregunta: ¿Estás ocupado o mejorando?">Question: Are you busy or improving?</p>
+    </div>
+
   </div>
 </section>
 
@@ -305,8 +402,8 @@ section{padding:86px 7%}
 
 <section id="start" class="cta">
   <h2 data-en="Train Your Game.<br><span>Understand Your Value.</span>" data-es="Entrena Tu Juego.<br><span>Entiende Tu Valor.</span>">Train Your Game.<br><span>Understand Your Value.</span></h2>
-  <p data-en="Episode 001 is live. Free to play. No account needed." data-es="El Episodio 001 está en vivo. Gratis. Sin cuenta.">
-    Episode 001 is live. Free to play. No account needed.
+  <p data-en="Episodes 001 and 002 are live. Free to play. No account needed. More coming." data-es="Los Episodios 001 y 002 están en vivo. Gratis. Sin cuenta. Más en camino.">
+    Episodes 001 and 002 are live. Free to play. No account needed. More coming.
   </p>
   <div class="buttons">
     <a href="/episode-001.html" class="btn gold">
